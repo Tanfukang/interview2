@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>方案二</title>
+    <style>
+        ul li{
+            list-style: none;
+        }
+    </style>
+</head>
+<body>
+   <ul id="container"></ul>
+</body>
+<script>
+function createData(){
+            let arr = [];
+            for(let i=0;i<100000;i++){
+              arr.push({
+                key:i
+              })
+            }
+            return arr;
+        }
+        let data = createData();
+        let firstScreenData = data.splice(0,100); 
+        for(let i=1;i<100;i++){
+          let li = document.createElement('li');
+
+          let text = document.createTextNode(`这是第${firstScreenData[i].key}个元素`);
+          // console.log('partialData[i].key',partialData[i].key);
+          li.appendChild(text);
+          document.getElementById('container').appendChild(li);
+        }  
+        setTimeout(()=>{
+          function renderHundred(n){
+            let partialData = data.splice(0,100);
+            for(let i=0;i<100 && partialData.length>0;i++){
+              let li = document.createElement('li');
+              let text = document.createTextNode(`这是第${partialData[i].key}个元素`);
+              // console.log('partialData[i].key',partialData[i].key);
+              li.appendChild(text);
+              document.getElementById('container').appendChild(li);
+            }            
+            if(n){
+              setTimeout(()=>{
+                renderHundred(n-1);
+              },50)
+            }       
+          }
+          renderHundred(999);
+        },1000); 
+</script>
+</html>

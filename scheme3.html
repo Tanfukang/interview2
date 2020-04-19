@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>方案三</title>
+    <style>
+        ul li{
+           list-style: none;
+        }
+    </style>
+</head>
+<body>
+    <ul id="container"></ul>
+</body>
+<script>
+let ul = document.getElementById('container');
+let sum = 100000;
+let once = 100;
+let page = sum/once
+let index = 0;
+function loop(curTotal,curIndex){
+    if(curTotal <= 0){
+        return false;
+    }
+    let pageCount = Math.min(curTotal , once);
+    window.requestAnimationFrame(function(){
+        let fragment = document.createDocumentFragment();
+        for(let i = 1; i < pageCount+1; i++){
+            let li = document.createElement('li');
+            li.innerText = `这是第${curIndex + i}个元素`
+            fragment.appendChild(li)
+        }
+        ul.appendChild(fragment)
+        loop(curTotal - pageCount,curIndex + pageCount)
+    })
+}
+loop(sum,index);
+</script>
+</html>
