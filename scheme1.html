@@ -14,36 +14,46 @@
     <ul id="container"></ul>
 </body>
 <script>
-    function createData(){
-            let arr = [];
-            for(let i=0;i<100000;i++){
-              arr.push({
-                key:i
-              })
-            }
-            return arr;
-        }
-        var data = createData();
-        let firstScreenData = data.splice(0,100); 
-        for(let i=1;i<100;i++){
-          let li = document.createElement('li');
-          let text = document.createTextNode(`这是第${firstScreenData[i].key}个元素`);
-          li.appendChild(text);
-          document.getElementById('container').appendChild(li);
-        } 
-        window.onscroll = function(e){
-            // console.log(window.scrollY)
-            if(window.scrollY>500){
-                // console.log(data)
-                let firstScreenData = data.splice(0,100);
-                for(let i=0;i<100;i++){
-                    let li = document.createElement('li');
-                    let text = document.createTextNode(`这是第${firstScreenData[i].key}个元素`);
-                    // console.log('partialData[i].key',partialData[i].key);
-                    li.appendChild(text);
-                    document.getElementById('container').appendChild(li);
-                } 
-            }
-        }
+    let page = 0
+    function createData() {
+      let size = 200
+      let numStar = page * size
+      let numEnd = (page + 1) * size
+      let arr = [];
+      for (numStar; numStar < numEnd; numStar++) {
+        arr.push({
+          key: numStar
+        })
+      }
+      page += 1
+      return arr
+    }
+
+    function createDom(data) {
+      if (!data) return;
+      let li = document.createElement('li');
+      let domListArr = [];
+      let domListStr = '';
+      const length = data.length;
+      for (let i = 0; i < length; i++) {
+        domListArr.push(`<li>这是第${data[i].key}个元素</li>`)
+      }
+      domListStr = domListArr.join('')
+      console.log(domListStr)
+      li.innerHTML = domListStr
+      document.getElementById('container').appendChild(li)
+    }
+
+    createDom(createData())
+
+    let timer = null
+    window.onscroll = function () {
+      clearTimeout(timer)
+      if (window.scrollY > 500) {
+        timer = setTimeout(() => {
+          createDom(createData())
+        }, 200);
+      }
+    }
 </script>
 </html>
