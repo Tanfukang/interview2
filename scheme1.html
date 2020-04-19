@@ -1,34 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>方案一</title>
-    <style>
-      ul li{
-        list-style: none;
-      }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>方案一</title>
+  <style>
+    ul li{
+      list-style: none;
+    }
+  </style>
 </head>
+
 <body>
-    <ul id="container"></ul>
-</body>
-<script>
-    let page = 0
+  <ul id="container"></ul>
+  <script>
     function createData() {
-      let size = 200
-      let numStar = page * size
-      let numEnd = (page + 1) * size
-      let arr = [];
-      for (numStar; numStar < numEnd; numStar++) {
+      let arr = []
+      for (let i = 1; i < 100000; i++) {
         arr.push({
-          key: numStar
+          key: i
         })
       }
-      page += 1
       return arr
     }
-
+    let data = createData()
     function createDom(data) {
       if (!data) return;
       let li = document.createElement('li');
@@ -39,21 +35,23 @@
         domListArr.push(`<li>这是第${data[i].key}个元素</li>`)
       }
       domListStr = domListArr.join('')
-      console.log(domListStr)
       li.innerHTML = domListStr
       document.getElementById('container').appendChild(li)
     }
-
-    createDom(createData())
+    createDom(data.splice(0, 200))
 
     let timer = null
     window.onscroll = function () {
       clearTimeout(timer)
       if (window.scrollY > 500) {
         timer = setTimeout(() => {
-          createDom(createData())
-        }, 200);
+          console.time('star')
+          createDom(data.splice(0, 200))
+          console.timeEnd('star')
+        }, 300);
       }
     }
-</script>
-</html>
+  </script>
+</body>
+
+</html
